@@ -130,9 +130,12 @@ externalproject_add(googletest
 		PREFIX googletest
 		GIT_REPOSITORY https://github.com/google/googletest
 		UPDATE_COMMAND ""
+		INSTALL_COMMAND ""
 )
-externalproject_get_property(googletest source_dir)
-include_directories("${source_dir}")
+externalproject_get_property(googletest source_dir binary_dir)
+include_directories("${source_dir}/googletest/include")
+include_directories("${source_dir}/googlemock/include")
+link_directories("${binary_dir}/lib")
 list(APPEND DEPS googletest)
 list(APPEND LIBS gtest gmock)
 
@@ -164,4 +167,4 @@ if (WIN32)
 	set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME} SUFFIX ".dll")
 endif()
 
-install(TARGETS ${PROJECT_NAME} DESTINATION /usr/local/lib)
+install(TARGETS ${PROJECT_NAME} DESTINATION lib)
